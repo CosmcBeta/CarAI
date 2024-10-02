@@ -154,3 +154,5 @@ if __name__ == '__main__':
 # Everything related to the AI
 # interpolation
 # maybe clean code up
+
+# Fix lists and work on this shit
