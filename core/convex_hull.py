@@ -1,11 +1,10 @@
 import math
-import numpy as np
 
 from functools import cmp_to_key
 
 
 class ConvexHull():
-    
+
     def __init__(self, points):
         self.points = points
         self.point_p_index = self._bottom_left_point()
@@ -13,12 +12,12 @@ class ConvexHull():
 
 
     def new_points_list(self, new_points):
-        self.points = new_points 
+        self.points = new_points
 
     # Distance between two points squared
     def distance_squared(self, p1, p2):
         return math.pow(p1[0] - p2[0], 2) + math.pow(p1[1] - p2[1], 2)
-    
+
     # Finds the Taxicab distance between the point and point P
     def _taxicab_distance(self, p1):
         return abs(self.point_p[0] - p1[0]) + abs(self.point_p[1] - p1[1])
@@ -37,8 +36,8 @@ class ConvexHull():
                 return -1
             else:
                 return 1
-        
-    
+
+
     # Returns the index of a point in the points list
     def _get_index(self, point):
         x = point[0]
@@ -48,13 +47,13 @@ class ConvexHull():
             if x == point[0] and y == point[1]:
                 return index
         return -1
-            
+
 
     # Determines if the point is a left turn or a right turn
     # Negative if ccw(left turn), positive if cw(right turn), 0 if collinear
     def _ccw(self, p1, p2, p3):
         return ((p2[0] - p1[0]) * (p3[1] - p1[1])) - ((p2[1] - p1[1]) * (p3[0] - p1[0]))
-    
+
 
     # Returns index of the bottom left point
     def _bottom_left_point(self):
@@ -74,9 +73,9 @@ class ConvexHull():
                 x = point[0]
                 y = point[1]
                 point_index = index
-        
+
         return point_index
-    
+
 
     # Calculate and return the convex hull
     def convex_hull(self):
@@ -99,7 +98,7 @@ class ConvexHull():
                 removing.append(p2)
             else:
                 removing.append(p1)
-    
+
         # Removes the points from the sorted list
         final_list = sorted_points
         for point in removing:
@@ -121,4 +120,3 @@ class ConvexHull():
             ind = self._get_index(point)
             indexes.append(ind)
         return indexes
-    

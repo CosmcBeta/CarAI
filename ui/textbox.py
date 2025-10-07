@@ -1,13 +1,9 @@
-import string
-import pygame as pg
-
-
-ACCEPTED = string.digits#string.ascii_letters+string.digits+string.punctuation+" "
+import pygame
 
 
 class TextBox(object):
     def __init__(self,rect,**kwargs):
-        self.rect = pg.Rect(rect)
+        self.rect: pygame.Rect = pygame.Rect(rect)
         self.buffer = []
         self.final = None
         self.rendered = None
@@ -23,12 +19,12 @@ class TextBox(object):
                     "command" : None,
                     "track_arg" : None,
                     "active" : True,
-                    "color" : pg.Color("white"),
-                    "font_color" : pg.Color("black"),
-                    "outline_color" : pg.Color("black"),
+                    "color" : pygame.Color("white"),
+                    "font_color" : pygame.Color("black"),
+                    "outline_color" : pygame.Color("black"),
                     "outline_width" : 2,
-                    "active_color" : pg.Color("blue"),
-                    "font" : pg.font.Font(None, self.rect.height+4),
+                    "active_color" : pygame.Color("blue"),
+                    "font" : pygame.font.Font(None, self.rect.height+4),
                     "clear_on_enter" : False,
                     "inactive_on_enter" : True}
         for kwarg in kwargs:
@@ -39,15 +35,15 @@ class TextBox(object):
         self.__dict__.update(defaults)
 
     def get_event(self,event):
-        if event.type == pg.KEYDOWN and self.active:
-            if event.key in (pg.K_RETURN,pg.K_KP_ENTER):
+        if event.type == pygame.KEYDOWN and self.active:
+            if event.key in (pygame.K_RETURN,pygame.K_KP_ENTER):
                 self.execute()
-            elif event.key == pg.K_BACKSPACE:
+            elif event.key == pygame.K_BACKSPACE:
                 if self.buffer:
                     self.buffer.pop()
             elif event.unicode in ACCEPTED:
                 self.buffer.append(event.unicode)
-        elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             self.active = self.rect.collidepoint(event.pos)
 
     def execute(self):
@@ -66,13 +62,13 @@ class TextBox(object):
                                                       centery=self.rect.centery)
             if self.render_rect.width > self.rect.width-6:
                 offset = self.render_rect.width-(self.rect.width-6)
-                self.render_area = pg.Rect(offset,0,self.rect.width-6,
+                self.render_area = pygame.Rect(offset,0,self.rect.width-6,
                                            self.render_rect.height)
             else:
                 self.render_area = self.rendered.get_rect(topleft=(0,0))
-        if pg.time.get_ticks()-self.blink_timer > 200:
+        if pygame.time.get_ticks()-self.blink_timer > 200:
             self.blink = not self.blink
-            self.blink_timer = pg.time.get_ticks()
+            self.blink_timer = pygame.time.get_ticks()
 
     def draw(self,surface):
         outline_color = self.active_color if self.active else self.outline_color

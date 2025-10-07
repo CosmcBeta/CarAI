@@ -6,8 +6,7 @@ from textbox import TextBox
 
 import pygame
 
-STARTING_X_POSITION, STARTING_Y_POSITION = 0, 0
-SEED_CHANGED = False
+
 
 def set_seed(id, seed, track):
     global STARTING_X_POSITION, STARTING_Y_POSITION, SEED_CHANGED
@@ -30,7 +29,7 @@ def randomize_seed(track):
 
 
 def main():
-    pygame.init()
+    _ = pygame.init()
     total_display = pygame.display.set_mode(TOTAL_SIZE)
     screen = pygame.surface.Surface(SCREEN_SIZE)
     bottom_bar = pygame.surface.Surface(BOTTOM_BAR_SIZE)
@@ -79,7 +78,7 @@ def main():
             restart_button.check_event(event)
             seed_button.check_event(event)
             seed_textbox.get_event(event)
-        
+
         if SEED_CHANGED:
             player.set_position(STARTING_X_POSITION, STARTING_Y_POSITION)
             SEED_CHANGED = False
@@ -95,7 +94,7 @@ def main():
             player.turn(-2)
         if keys[pygame.K_d]:
             player.turn(2)
-            
+
         player_sprite.update()
         #if pygame.sprite.spritecollideany(player, objects, pygame.sprite.collide_mask):
         seed_textbox.update()
@@ -118,7 +117,7 @@ def main():
 
         bottom_bar.fill("green")
         total_display.blit(bottom_bar, (0,S_HEIGHT))
-        
+
         randomize_seed_button.update(total_display)
         restart_button.update(total_display)
         seed_button.update(total_display)
@@ -136,23 +135,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-#
-# TO-DO LIST
-#
-# Collision
-# Create the distance to wall vectors
-# Create the AI
-# Train the AI
-# Test the AI
-
-
-
-# Fuck that list
-# Create Collision
-# Create distance to wall vectors
-# Everything related to the AI
-# interpolation
-# maybe clean code up
-
-# Fix lists and work on this shit

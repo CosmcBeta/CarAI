@@ -1,5 +1,4 @@
 import pygame
-from constants import S_HEIGHT
 
 
 class Button(object):
