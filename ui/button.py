@@ -2,7 +2,6 @@ import pygame
 
 
 class Button(object):
-    """A fairly straight forward button class."""
     def __init__(self,rect,color,function,**kwargs):
         self.rect = pygame.Rect(rect)
         self.color = color
@@ -15,7 +14,6 @@ class Button(object):
         self.render_text()
 
     def process_kwargs(self,kwargs):
-        """Various optional customization you can change by passing kwargs."""
         settings = {"text" : None,
                     "font" : pygame.font.Font(None,16),
                     "call_on_release" : True,

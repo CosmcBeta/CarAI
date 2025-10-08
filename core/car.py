@@ -29,14 +29,15 @@ class Car(pygame.sprite.Sprite):
         self.rect.center=(x, y)
         self.reversing: bool = False
 
-
+    # Sets the position to the new position
     def set_position(self, x: float, y: float) -> None:
         self.position = pygame.Vector2(x, y)
 
-
+    # Handles turning
     def turn(self, angle: float) -> None:
         if self.speed == 0 and self.velocity == pygame.Vector2(0,0):
             return
+
         dir = -1 if self.reversing else 1
         self.degrees = (self.degrees + angle * dir)
 
@@ -45,8 +46,8 @@ class Car(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = old_center
 
-
-    def change_speed(self, dt: float, dir, accelerating: bool = False) -> None:
+    # Handles speed change
+    def change_speed(self, dt: float, dir: int, accelerating: bool = False) -> None:
         self.reversing = True if self.speed < 0 else False
         if self.speed >= MAX_SPEED and accelerating:
             self.speed = MAX_SPEED
@@ -57,24 +58,22 @@ class Car(pygame.sprite.Sprite):
 
         if accelerating:
             if dir > 0:
-                self.speed += ACCELERATION * dt
-                return
-
-            if self.speed > 0:
-                self.speed -= ACCELERATION * dt
+                accel = ACCELERATION
+            elif self.speed > 0:
+                accel = -ACCELERATION
             else:
-                self.speed += REVERSE_ACCELERATION * dt
-
-            return
-
-        if self.speed < 0:
-            acceleration = REVERSE_ACCELERATION
-        elif self.speed > 0:
-            acceleration = ACCELERATION
+                accel = REVERSE_ACCELERATION
         else:
-            acceleration = 0
+            if self.speed > 0:
+                accel = -ACCELERATION
+            elif self.speed < 0:
+                accel = -REVERSE_ACCELERATION
+            else:
+                accel = 0
 
-        self.speed += (-acceleration * dt)
+        self.speed += accel * dt
+
+
         if abs(self.speed) < 0.1:
             self.speed = 0
 
@@ -87,6 +86,9 @@ class Car(pygame.sprite.Sprite):
 
 
 class CameraGroup(pygame.sprite.GroupSingle):
+    def __init__(self, sprite: pygame.sprite.Sprite | None = None) -> None:
+        super().__init__(sprite)
+
     def draw(self, surface: pygame.Surface, camera: pygame.Rect) -> None:
         sprites = self.sprites()
         surface_blit = surface.blit

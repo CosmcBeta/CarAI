@@ -34,7 +34,7 @@ class TextBox(object):
                 raise KeyError("InputBox accepts no keyword {}.".format(kwarg))
         self.__dict__.update(defaults)
 
-    def get_event(self,event):
+    def get_event(self, event):
         if event.type == pygame.KEYDOWN and self.active:
             if event.key in (pygame.K_RETURN,pygame.K_KP_ENTER):
                 self.execute()
@@ -70,7 +70,7 @@ class TextBox(object):
             self.blink = not self.blink
             self.blink_timer = pygame.time.get_ticks()
 
-    def draw(self,surface):
+    def draw(self, surface):
         outline_color = self.active_color if self.active else self.outline_color
         outline = self.rect.inflate(self.outline_width*2,self.outline_width*2)
         surface.fill(outline_color,outline)
