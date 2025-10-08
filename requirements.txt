@@ -1,0 +1,9 @@
+numpy @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_numpy_1757504947/work/dist/numpy-2.3.3-cp312-cp312-macosx_11_0_arm64.whl#sha256=8e7c8567275473731bdc11d5b40e87bdc1995ff45ea5e5693855593a9c43c7fe
+numpy-typing-compat @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_numpy-typing-compat_1755874992/work
+optype @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_optype_1755926772/work
+pygame @ file:///Users/runner/miniforge3/conda-bld/pygame_1727636445513/work
+scipy @ file:///Users/runner/miniforge3/conda-bld/scipy-split_1757681096992/work/dist/scipy-1.16.2-cp312-cp312-macosx_11_0_arm64.whl#sha256=152337200d215a40e5da0bd171f735be0292da7037e77b6d968e47255ec03aff
+scipy-stubs @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_scipy-stubs_1757717336/work
+setuptools==80.9.0
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_typing_extensions_1756220668/work
+wheel==0.45.1
