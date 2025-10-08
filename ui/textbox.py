@@ -1,5 +1,5 @@
 import pygame
-
+from util.constants import ACCEPTED
 
 class TextBox(object):
     def __init__(self,rect,**kwargs):

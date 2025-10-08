@@ -114,7 +114,7 @@ class Game:
             _ = self.screen.blit(seed_surface, (3, velocity_surface.get_height() + position_surface.get_height()))
 
             _ = self.bottom_bar.fill("green")
-            _ = self.total_display.blit(self.bottom_bar, (0,S_HEIGHT))
+            _ = self.total_display.blit(self.bottom_bar, (0, constants.S_HEIGHT))
 
             self.randomize_seed_button.update(self.total_display)
             self.restart_button.update(self.total_display)
