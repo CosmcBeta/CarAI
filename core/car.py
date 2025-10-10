@@ -58,20 +58,21 @@ class Car(pygame.sprite.Sprite):
 
         if accelerating:
             if dir > 0:
-                accel = ACCELERATION
+                self.speed += ACCELERATION * dt
             elif self.speed > 0:
-                accel = -ACCELERATION
+                self.speed -= ACCELERATION * dt
             else:
-                accel = REVERSE_ACCELERATION
-        else:
-            if self.speed > 0:
-                accel = -ACCELERATION
-            elif self.speed < 0:
-                accel = -REVERSE_ACCELERATION
-            else:
-                accel = 0
+                self.speed += REVERSE_ACCELERATION * dt
+            return
 
-        self.speed += accel * dt
+        if self.speed > 0:
+            acceleration = ACCELERATION
+        elif self.speed < 0:
+            acceleration = REVERSE_ACCELERATION
+        else:
+            acceleration = 0
+
+        self.speed -= acceleration * dt
 
 
         if abs(self.speed) < 0.1:
