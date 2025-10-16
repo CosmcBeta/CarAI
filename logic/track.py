@@ -8,7 +8,7 @@ from numpy._typing import NDArray
 from scipy import interpolate
 
 import util.constants as constants
-from math.convex_hull import ConvexHull
+from logic.convex_hull import ConvexHull
 
 
 class Track(pygame.sprite.Sprite):
