@@ -3,6 +3,12 @@
 **Race Track** is a top-down 2D "racing" game featuring a procedurally generated track built using **convex hulls** and **interpolation**. This was
 originally made to be used to make my own ai and that will be the plan for the future after refactoring current code.
 
+## Important
+
+This is currently under heavy rework and current main repo may now work. This is part of an entire overhaul of the code and is intentional. I will update the
+README once more has been completed.
+
+
 ---
 
 ## Roadmap
