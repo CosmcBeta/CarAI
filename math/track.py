@@ -8,7 +8,7 @@ from numpy._typing import NDArray
 from scipy import interpolate
 
 import util.constants as constants
-from core.convex_hull import ConvexHull
+from math.convex_hull import ConvexHull
 
 
 class Track(pygame.sprite.Sprite):
@@ -163,6 +163,9 @@ class Track(pygame.sprite.Sprite):
     #     for i in range(len(self.final_points) - 1):
     #         pygame.draw.line(self.image, color, self.final_points[i], self.final_points[i+1], 2)
     #     pygame.draw.line(self.image, color, self.final_points[0], self.final_points[-1])
+
+    def get_track(self) -> list[tuple[int, int]]:
+        return self.key_points
 
     # Draws circle at each point to make the track
     def _draw_track(self, color: str = 'gray') -> None:
