@@ -28,43 +28,24 @@ class Track:
         y = self.rng.integers(constants.MARGIN, constants.W_WIDTH - constants.MARGIN, number_of_points, endpoint=True)
         return np.column_stack((x, y))
 
-    def _find_midpoints(self, points: NDArray[np.int64]):
+    def _find_midpoints(self, points: NDArray[np.int64]) -> NDArray[np.int64]:
         x, y = np.hsplit(points, (1,))
 
-        x1 = x[1:]
-        x2 = x[:-1]
+        x1, x2 = x[1:], x[:-1]
+        y1, y2 = y[1:], y[:-1]
+        mid_points = np.hstack(((x1 + x2) // 2, (y1 + y2) // 2))
 
-        y1 = y[1:]
-        y2 = y[:-1]
-
-        mid_x = (x1 + x2) // 2
-        mid_y = (y1 + y2) // 2
-
-        mid_points = np.hstack((mid_x, mid_y))
-
-        xf, xl = x[0], x[-1]
-        yf, yl = y[0], y[-1]
-        mx = (xf + xl) // 2
-        my = (yf + yl) // 2
-
-        mp = np.array([mx, my])
-        mp = np.reshape(mp, (-1, 2))
-        # print(mp.shape)
+        x_first, x_last = x[0], x[-1]
+        y_first, y_last = y[0], y[-1]
+        mp = np.array([(x_first + x_last) // 2, (y_first + y_last) // 2]).reshape((-1, 2))
         mid_points = np.vstack((mid_points, mp))
 
-
         displacement = self.rng.integers(constants.MIN_DISPLACEMENT, constants.MAX_DISPLACEMENT, mid_points.size).reshape((-1, 2))
-
         mid_points += displacement
 
-        new_points = np.empty(points.size + mid_points.size, dtype=points.dtype).reshape(points.shape[0] + mid_points.shape[0], 2)
-
-        k = 0
-        for i in range(len(points)):
-            new_points[k] = points[i]
-            k += 1
-            new_points[k] = mid_points[i]
-            k += 1
+        new_points = np.empty((2 * len(points), 2), dtype=points.dtype)
+        new_points[0::2] = points
+        new_points[1::2] = mid_points
 
         return new_points
 
