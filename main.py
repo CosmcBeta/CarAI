@@ -1,6 +1,6 @@
-import pygame
+# import pygame
 
-from core.game import Game
+# from core.game import Game
 from ui.display_track import display
 
 def main():
