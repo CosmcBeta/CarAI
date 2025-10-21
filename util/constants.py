@@ -27,5 +27,4 @@ REVERSE_MAX_SPEED = -4
 SEED = 562
 
 
-
 ACCEPTED = string.digits

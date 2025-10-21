@@ -5,6 +5,8 @@ from numpy.typing import NDArray
 from scipy.spatial import ConvexHull
 
 from util import constants
+
+
 class Track:
     def __init__(self) -> None:
         self.randomize_seed()
@@ -22,7 +24,9 @@ class Track:
         return self.seed
 
     def _create_points(self) -> NDArray[np.float64]:
-        number_of_points = self.rng.integers(constants.MIN_POINTS, constants.MAX_POINTS, endpoint=True)
+        number_of_points = self.rng.integers(
+            constants.MIN_POINTS, constants.MAX_POINTS, endpoint=True
+        )
 
         margin = constants.MARGIN
         high = constants.W_WIDTH - constants.MARGIN
@@ -46,7 +50,9 @@ class Track:
         mp = np.array([(x_first + x_last) / 2, (y_first + y_last) / 2]).reshape((-1, 2))
         mid_points = np.vstack((mid_points, mp))
 
-        displacement = self.rng.integers(constants.MIN_DISPLACEMENT, constants.MAX_DISPLACEMENT, mid_points.size).reshape((-1, 2))
+        displacement = self.rng.integers(
+            constants.MIN_DISPLACEMENT, constants.MAX_DISPLACEMENT, mid_points.size
+        ).reshape((-1, 2))
         mid_points += displacement
 
         new_points = np.empty((2 * len(points), 2), dtype=points.dtype)
@@ -82,9 +88,6 @@ class Track:
 
         return points
 
-
-
-
     def create_track(self) -> NDArray[np.float64]:
         rng_points = self._create_points()
         convex_hull = ConvexHull(rng_points)
@@ -92,7 +95,9 @@ class Track:
         hull_points: NDArray[np.float64] = rng_points[convex_hull.vertices]
 
         center = np.mean(hull_points, 0)
-        angles = np.arctan2(hull_points[:, 1] - center[1], hull_points[:, 0] - center[0])
+        angles = np.arctan2(
+            hull_points[:, 1] - center[1], hull_points[:, 0] - center[0]
+        )
         sorted_indices = np.argsort(angles)
         ordered_hull: NDArray[np.float64] = hull_points[sorted_indices]
 

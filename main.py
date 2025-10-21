@@ -3,6 +3,7 @@
 # from core.game import Game
 from ui.display_track import display
 
+
 def main():
     # game = Game()
     # game.run()
@@ -10,5 +11,5 @@ def main():
     display()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

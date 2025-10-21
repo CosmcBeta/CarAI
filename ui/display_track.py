@@ -3,6 +3,7 @@ from logic.track import Track
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def display():
     track: Track = Track()
     points = track.create_track()
@@ -12,5 +13,5 @@ def display():
     x = arr[:, 0]
     y = arr[:, 1]
 
-    plt.plot(x, y, '--bo')
+    plt.plot(x, y, "--bo")
     plt.show()

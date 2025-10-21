@@ -11,3 +11,8 @@ dependencies = [
     "scipy>=1.16.2",
     "scipy-stubs>=1.16.2.4",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.1",
+]

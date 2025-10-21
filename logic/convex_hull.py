@@ -3,7 +3,7 @@ from functools import cmp_to_key
 from util.constants import DISPLAY_SIZE
 
 
-class ConvexHull():
+class ConvexHull:
     # p_min is the reference point for the Graham method of calculating the convex hull
     def __init__(self, points: list[tuple[int, int]]) -> None:
         self.points: list[tuple[int, int]] = points
@@ -14,7 +14,7 @@ class ConvexHull():
         self.points = new_points
 
     # Finds the Taxicab distance between the point and the reference point
-    def _taxicab_distance(self, point: tuple[int ,int]):
+    def _taxicab_distance(self, point: tuple[int, int]):
         return abs(self.p_min[0] - point[0]) + abs(self.p_min[1] - point[1])
 
     # Compares the polar angle between two points
@@ -36,7 +36,9 @@ class ConvexHull():
     # Determines if the point is a left turn or a right turn
     # Negative if ccw(left turn), positive if cw(right turn), 0 if collinear
     # This is the cross product of vectors 2-1 and 3-1
-    def _ccw(self, p1: tuple[int, int], p2: tuple[int, int], p3: tuple[int, int]) -> int:
+    def _ccw(
+        self, p1: tuple[int, int], p2: tuple[int, int], p3: tuple[int, int]
+    ) -> int:
         x1, y1 = p1
         x2, y2 = p2
         x3, y3 = p3
@@ -65,7 +67,10 @@ class ConvexHull():
     # Calculate and return the convex hull
     def convex_hull(self):
         # Sorts all the points by the polar angle with reference point
-        sorted_points = sorted(self.points, key=cmp_to_key(lambda point_a, point_b : self._compare(point_a, point_b)))
+        sorted_points = sorted(
+            self.points,
+            key=cmp_to_key(lambda point_a, point_b: self._compare(point_a, point_b)),
+        )
         final_points: list[tuple[int, int]] = []
 
         i = 0
@@ -88,11 +93,13 @@ class ConvexHull():
         if sorted_points:
             final_points.append(sorted_points[-1])
 
-
         # Finds the convex hull
         stack = [self.p_min, final_points[0], final_points[1]]
         for index in range(2, len(final_points)):
-            while len(stack) > 1 and self._ccw(stack[-2], stack[-1], final_points[index]) <= 0:
+            while (
+                len(stack) > 1
+                and self._ccw(stack[-2], stack[-1], final_points[index]) <= 0
+            ):
                 _ = stack.pop()
             stack.append(final_points[index])
 

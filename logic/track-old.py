@@ -17,7 +17,9 @@ class Track(pygame.sprite.Sprite):
         self.randomize_seed()
         self.final_points = []
         self.key_points: list[tuple[int, int]] = []
-        self.image: pygame.Surface = pygame.Surface([constants.D_WIDTH, constants.D_HEIGHT])
+        self.image: pygame.Surface = pygame.Surface(
+            [constants.D_WIDTH, constants.D_HEIGHT]
+        )
         self.image.set_colorkey("black")
         self.rect: pygame.Rect = self.image.get_rect()
 
@@ -39,11 +41,11 @@ class Track(pygame.sprite.Sprite):
     def _create_random_points(self) -> list[tuple[int, int]]:
         num_points = rn.randint(constants.MIN_POINTS, constants.MAX_POINTS)
 
-        points: list[tuple[int ,int]] = []
+        points: list[tuple[int, int]] = []
         for _ in range(num_points):
             x = rn.randint(constants.MARGIN, constants.W_WIDTH - constants.MARGIN)
             y = rn.randint(constants.MARGIN, constants.W_HEIGHT - constants.MARGIN)
-            points.append((x,y))
+            points.append((x, y))
 
         return points
 
@@ -53,13 +55,13 @@ class Track(pygame.sprite.Sprite):
         k = 0
         for i in range(len(self.hull) - 1):
             x1, y1 = new_points[self.hull[i]]
-            x2, y2 = new_points[self.hull[i+1]]
+            x2, y2 = new_points[self.hull[i + 1]]
             mp = (x1 + x2) // 2, (y1 + y2) // 2
 
-            new_points.insert(i+1 + k, mp)
+            new_points.insert(i + 1 + k, mp)
             k += 1
 
-            for j in range(i+1, len(self.hull)):
+            for j in range(i + 1, len(self.hull)):
                 self.hull[j] += 1
 
         x1, y1 = points[self.hull[0]]
@@ -91,7 +93,6 @@ class Track(pygame.sprite.Sprite):
         x = np.r_[x, x[0]]
         y = np.r_[y, y[0]]
 
-
         tck, _ = interpolate.splprep([x, y], s=0, per=True)
 
         xi, yi = interpolate.splev(np.linspace(0, 1, constants.TRACK_POINTS), tck)
@@ -101,7 +102,7 @@ class Track(pygame.sprite.Sprite):
     def _fix_angles(self, points: list[tuple[int, int]]) -> list[tuple[int, int]]:
         for i in range(len(points)):
             prev_point = i - 1 if i > 0 else len(points) - 1
-            next_point = (i+1) % len(points)
+            next_point = (i + 1) % len(points)
 
             previous_x = points[i][0] - points[prev_point][0]
             previous_y = points[i][1] - points[prev_point][1]
@@ -114,9 +115,14 @@ class Track(pygame.sprite.Sprite):
             next_x /= next_length
             next_y /= next_length
 
-            angle = math.atan2(previous_x * next_y - previous_y * next_x, previous_x * next_x + previous_y * next_y)
-            if (abs(math.degrees(angle)) > constants.MAX_ANGLE):
-                diff = math.radians(constants.MAX_ANGLE * math.copysign(1,angle)) - angle
+            angle = math.atan2(
+                previous_x * next_y - previous_y * next_x,
+                previous_x * next_x + previous_y * next_y,
+            )
+            if abs(math.degrees(angle)) > constants.MAX_ANGLE:
+                diff = (
+                    math.radians(constants.MAX_ANGLE * math.copysign(1, angle)) - angle
+                )
                 cos = math.cos(diff)
                 sin = math.sin(diff)
                 new_x = (next_x * cos - next_y * sin) * next_length
@@ -127,7 +133,9 @@ class Track(pygame.sprite.Sprite):
         return points
 
     # Pushes the points apart so they are greater than the minumum distance between points
-    def _push_points_apart(self, points: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    def _push_points_apart(
+        self, points: list[tuple[int, int]]
+    ) -> list[tuple[int, int]]:
         for index, point in enumerate(points):
             next_point_index = 0 if index == len(points) - 1 else index + 1
             next_point = points[next_point_index]
@@ -149,7 +157,6 @@ class Track(pygame.sprite.Sprite):
 
         return points
 
-
     # def _draw_points(self, points, color="white"):
     #     for point in points:
     #         pygame.draw.circle(self.image, color, point, 3)
@@ -168,7 +175,7 @@ class Track(pygame.sprite.Sprite):
         return self.key_points
 
     # Draws circle at each point to make the track
-    def _draw_track(self, color: str = 'gray') -> None:
+    def _draw_track(self, color: str = "gray") -> None:
         radius = constants.TRACK_WIDTH // 2
         for point in self.key_points:
             _ = pygame.draw.circle(self.image, color, point, radius)
@@ -177,13 +184,15 @@ class Track(pygame.sprite.Sprite):
     def create_track(self) -> None:
         rng_points = self._create_random_points()
         c_hull: ConvexHull = ConvexHull(rng_points)
-        self.hull: list[int] = c_hull.convex_hull() # Index of each point in the hull
+        self.hull: list[int] = c_hull.convex_hull()  # Index of each point in the hull
 
         points: list[tuple[int, int]] = []
         for i in range(len(self.hull)):
             points.append(rng_points[self.hull[i]])
         c_hull.set_new_points_list(points)
-        self.hull = c_hull.convex_hull() # sorts them in order, otherwise keeps them the same as points
+        self.hull = (
+            c_hull.convex_hull()
+        )  # sorts them in order, otherwise keeps them the same as points
 
         points = self._find_midpoints(points)
         points = self._push_points_apart(points)
@@ -194,13 +203,13 @@ class Track(pygame.sprite.Sprite):
             x = min(max(x, constants.MARGIN), constants.W_WIDTH - constants.MARGIN)
             y = min(max(y, constants.MARGIN), constants.W_HEIGHT - constants.MARGIN)
 
-            self.final_points.append((x + 500, y + 500)) # Fix magic number
+            self.final_points.append((x + 500, y + 500))  # Fix magic number
 
         self.key_points = self._spline_curve()
 
     # Clears the track
     def clear_track(self) -> None:
-        _ = self.image.fill((0,0,0,0))
+        _ = self.image.fill((0, 0, 0, 0))
 
     # Draws the track
     def draw(self, surface: pygame.Surface, camera: pygame.Rect) -> None:
