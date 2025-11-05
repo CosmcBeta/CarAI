@@ -1,3 +1,5 @@
+exclude: ^(old/|legacy/|_archive/)
+
 repos:
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.

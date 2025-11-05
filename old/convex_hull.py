@@ -1,5 +1,7 @@
 from functools import cmp_to_key
 
+from numpy._core.numerictypes import int64
+
 from util.constants import DISPLAY_SIZE
 
 
@@ -48,7 +50,7 @@ class ConvexHull:
     # Returns index of the bottom left point
     def _bottom_left_point(self) -> int:
         x, y = DISPLAY_SIZE
-        point_index = -1
+        point_index: int = -1
         for index, point in enumerate(self.points):
             # Finds the lowest y valued point
             if point[1] < y:
@@ -60,7 +62,7 @@ class ConvexHull:
             # return the lowest x valued point
             if point[1] == y and point[0] < x:
                 x, y = point
-                point_index: int = index
+                point_index = index
 
         return point_index
 
